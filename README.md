@@ -8,8 +8,6 @@
 | Разработчик                            | Дионисий Димитраш <spenceronepro88@gmail.com>   |
 | Язык реализации                        | python 3.10                                     |
 | Место запуска                          | localhost                                       |
-| Документация                           | https://playwright.dev/python/docs/intro        |
-
 
 ### Описание проекта
 
@@ -35,6 +33,7 @@ pipenv install Pipfile
 ```bash
 
 # Сюда вынести команду для запуска сервиса 
+uvicorn asgi:app --reload
 
 ```
 </details>

@@ -1,41 +1,25 @@
 import json
+import os
+from functools import wraps
 
 from serializers.user import CreateUserRequestModel
 
-
-def save_user_to_json(user_data: CreateUserRequestModel):
-    # Загружаем существующих пользователей
-    try:
-        with open('db/users.json', 'r', encoding='utf-8') as json_file:
-            users = json.load(json_file)
-    except (FileNotFoundError, json.JSONDecodeError):
-        users = []
-
-    # Генерируем новый идентификатор пользователя
-    user_id = len(users) + 1
-    user_entry = {
-        'id': user_id,
-        'name': user_data.name,
-        'login': user_data.login,
-        'phone': user_data.phone,
-        'password': user_data.password,
-        'email': user_data.email
-    }
-
-    # Добавляем нового пользователя в список
-    users.append(user_entry)
-
-    # Записываем обновлённый список пользователей обратно в файл
-    with open('db/users.json', 'w', encoding='utf-8') as json_file:
-        json.dump(users, json_file, ensure_ascii=False, indent=4)
-
-    return user_id
+DATA_FILE = 'db/users.json'
 
 
-def get_user_data_by_id(user_id):
-    with open('db/users.json', 'r', encoding='utf-8') as json_file:
-        users = json.load(json_file)
-    for user in users:
-        if user.get('id') == user_id:
-            return user
+def file_handler(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if not os.path.exists(DATA_FILE):
+            with open(DATA_FILE, 'w', encoding='utf-8') as f:
+                json.dump({}, f)  # Создаем пустой файл, если его нет
+        with open(DATA_FILE, 'r+', encoding='utf-8') as f:
+            users = json.load(f)
+            result = func(users, *args, **kwargs)
+            f.seek(0)  # Возвращаемся в начало файла
+            f.truncate()  # Очищаем файл
+            json.dump(users, f, ensure_ascii=False, indent=4)
+            return result
+
+    return wrapper
 

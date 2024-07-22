@@ -1,0 +1,76 @@
+[
+    {
+        "id": 3,
+        "name": "йцу",
+        "login": "string",
+        "phone": "string",
+        "password": "string",
+        "email": "string",
+        "createAt": "string",
+        "updatedAt": "2024-07-23 00:15:47"
+    },
+    {
+        "id": 4,
+        "name": "string",
+        "login": "string",
+        "phone": "string",
+        "password": "string",
+        "email": "string"
+    },
+    {
+        "id": 6,
+        "name": "penis",
+        "login": "string",
+        "phone": "asdg",
+        "password": "string",
+        "email": "string"
+    },
+    {
+        "id": 7,
+        "name": "penis",
+        "login": "string",
+        "phone": "asdg",
+        "password": "string",
+        "email": "string"
+    },
+    {
+        "id": 8,
+        "name": "penis",
+        "login": "string",
+        "phone": "asdg",
+        "password": "string",
+        "email": "string"
+    },
+    {
+        "id": 9,
+        "name": "penis",
+        "login": "string",
+        "phone": "asdg",
+        "password": "string",
+        "email": "string"
+    },
+    {
+        "id": 10,
+        "name": "priv",
+        "login": "priv",
+        "phone": "priv",
+        "password": "priv",
+        "email": "priv"
+    },
+    {
+        "id": 11,
+        "name": "qwe",
+        "login": "qwe",
+        "phone": "string",
+        "password": "qwe",
+        "email": "qwe"
+    },
+    {
+        "id": 12,
+        "name": "qwe",
+        "login": "string",
+        "phone": "string",
+        "password": "string",
+        "email": "qwe"
+    }
+]
