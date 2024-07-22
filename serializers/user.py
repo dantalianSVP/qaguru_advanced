@@ -2,7 +2,6 @@ from pydantic import BaseModel, Field
 
 
 class UserBaseSchema(BaseModel):
-    id: int = Field(...)
     name: str = Field(...)
     phone: str = Field(...)
     email: str
@@ -20,3 +19,4 @@ class CreateUserRequestModel(BaseModel):
 
 class CreateUserResponseModel(BaseModel):
     id: int = Field(...)
+

@@ -6,7 +6,7 @@ from serializers.user import CreateUserRequestModel
 def save_user_to_json(user_data: CreateUserRequestModel):
     # Загружаем существующих пользователей
     try:
-        with open('users.json', 'r', encoding='utf-8') as json_file:
+        with open('db/users.json', 'r', encoding='utf-8') as json_file:
             users = json.load(json_file)
     except (FileNotFoundError, json.JSONDecodeError):
         users = []
@@ -26,15 +26,16 @@ def save_user_to_json(user_data: CreateUserRequestModel):
     users.append(user_entry)
 
     # Записываем обновлённый список пользователей обратно в файл
-    with open('users.json', 'w', encoding='utf-8') as json_file:
+    with open('db/users.json', 'w', encoding='utf-8') as json_file:
         json.dump(users, json_file, ensure_ascii=False, indent=4)
 
     return user_id
 
 
 def get_user_data_by_id(user_id):
-    with open('users.json', 'r', encoding='utf-8') as json_file:
+    with open('db/users.json', 'r', encoding='utf-8') as json_file:
         users = json.load(json_file)
-    for i in users:
-        if i['id'] == user_id:
-            return i
+    for user in users:
+        if user.get('id') == user_id:
+            return user
+

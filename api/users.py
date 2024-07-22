@@ -17,11 +17,10 @@ async def create_user(user_data: CreateUserRequestModel):
 
 @routes.get(
     '/users/{user_id}',
-    response_model=CreateUserResponseModel,
+    response_model=UserBaseSchema,
     status_code=200,
     summary='Получение данных пользователя'
 
 )
 async def get_user(user_id: int):
-    user = get_user_data_by_id(user_id)
-    return UserBaseSchema(**user)
+    return get_user_data_by_id(user_id)
