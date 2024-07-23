@@ -47,6 +47,8 @@ def test_delete_user():
     user_id = resp["id"]
     response = httpx.delete(url=base_url + "/" + str(user_id))
     assert response.status_code == 204
+    response = httpx.get(url=base_url + "/" + str(user_id))
+    assert response.status_code == 404
 
 
 def test_update_user():
