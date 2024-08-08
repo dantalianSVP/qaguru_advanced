@@ -5,7 +5,6 @@ import pytest
 
 from serializers.user import UserBaseSchema, CreateUserResponseModel, UpdateUserResponseModel
 
-base_url = "http://127.0.0.1:5000/v1/api/users"
 
 user_data_update = {
     'name': 'upd',
@@ -26,35 +25,35 @@ new_user = {
 }
 
 
-def test_create_user():
-    response = httpx.post(url=base_url, json=new_user)
+def test_create_user(app_url):
+    response = httpx.post(f'{app_url}/users', json=new_user)
     resp = response.json()
     CreateUserResponseModel(**resp)
     assert response.status_code == 200
 
 
 @pytest.mark.parametrize("user_id", ["3", "12"])
-def test_get_user(user_id):
-    response = httpx.get(url=base_url + "/" + user_id)
+def test_get_user(user_id,app_url):
+    response = httpx.get(f'{app_url}/users' + "/" + user_id)
     resp = response.json()
     UserBaseSchema(**resp)
     assert response.status_code == 200
 
 
-def test_delete_user():
-    response = httpx.post(url=base_url, json=new_user)
+def test_delete_user(app_url):
+    response = httpx.post(f'{app_url}/users', json=new_user)
     resp = response.json()
     user_id = resp["id"]
-    response = httpx.delete(url=base_url + "/" + str(user_id))
+    response = httpx.delete(f'{app_url}/users' + "/" + str(user_id))
     assert response.status_code == 204
-    response = httpx.get(url=base_url + "/" + str(user_id))
+    response = httpx.get(url=app_url + "/" + str(user_id))
     assert response.status_code == 404
 
 
-def test_update_user():
-    resp = httpx.post(url=base_url, json=new_user).json()
+def test_update_user(app_url):
+    resp = httpx.post(f'{app_url}/users', json=new_user).json()
     user_id = resp["id"]
-    response = httpx.put(url=base_url + "/" + str(user_id), json=user_data_update)
+    response = httpx.put(f'{app_url}/users' + "/" + str(user_id), json=user_data_update)
     resp = response.json()
     UpdateUserResponseModel(**resp)
     assert response.status_code == 200

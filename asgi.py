@@ -1,15 +1,11 @@
-import json
 import uvicorn
+from fastapi_pagination import add_pagination
+
 from main import create_app
-from serializers.user import UserBaseSchema
 
 app = create_app()
 
-users: list[UserBaseSchema]
+add_pagination(app)
 
 if __name__ == '__main__':
-    with open("db/users.json") as f:
-        users = json.load(f)
-    for user in users:
-        UserBaseSchema.model_validate(user)
-    uvicorn.run('asgi:app', port=5001, log_level='debug')
+    uvicorn.run('asgi:app', port=5000, log_level='debug')

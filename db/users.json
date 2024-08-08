@@ -174,5 +174,45 @@
         "email": "upd",
         "createAt": null,
         "updatedAt": "2024-07-23 10:48:00"
+    },
+    {
+        "id": 20,
+        "name": "new_user",
+        "login": "new",
+        "phone": "new",
+        "password": "new",
+        "email": "new",
+        "createAt": "2024-08-08 22:07:10",
+        "updatedAt": ""
+    },
+    {
+        "id": 21,
+        "name": "new_user",
+        "login": "new",
+        "phone": "new",
+        "password": "new",
+        "email": "new",
+        "createAt": "2024-08-08 22:08:04",
+        "updatedAt": ""
+    },
+    {
+        "id": 22,
+        "name": "new_user",
+        "login": "new",
+        "phone": "new",
+        "password": "new",
+        "email": "new",
+        "createAt": "2024-08-08 22:08:33",
+        "updatedAt": ""
+    },
+    {
+        "id": 23,
+        "name": "upd",
+        "login": "upd",
+        "phone": "upd",
+        "password": "upd",
+        "email": "upd",
+        "createAt": null,
+        "updatedAt": "2024-08-08 22:08:33"
     }
 ]
