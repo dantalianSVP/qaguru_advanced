@@ -1,10 +1,15 @@
+import json
 from datetime import datetime
+from http import HTTPStatus
 
 from fastapi import HTTPException, status
+from fastapi_pagination import Page, paginate
 
 from api.routes import routes
 from serializers.user import CreateUserRequestModel, CreateUserResponseModel, UserBaseSchema, UpdateUserResponseModel
 from db.db_queries import add_user, get_user_by_id, update_user_by_id, delete_user_by_id
+
+users: list[UserBaseSchema]
 
 
 @routes.post(
@@ -68,3 +73,12 @@ async def delete_user(user_id: int):
             detail='Пользователь не найден в БД',
         )
     return delete_user_by_id(user_id)
+
+
+@routes.get("/users", status_code=HTTPStatus.OK)
+async def get_users() -> Page[UserBaseSchema]:
+    with open("db/users.json") as f:
+        users = json.load(f)
+    for user in users:
+        UserBaseSchema.model_validate(user)
+    return paginate(users)

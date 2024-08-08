@@ -8,6 +8,7 @@ pydantic= "*"
 fastapi = "*"
 httpx = "*"
 pytest= "*"
+fastapi-pagination = "*"
 uvicorn = {version ="*", extras = ["standard"]}
 pipfile = "*"
 
