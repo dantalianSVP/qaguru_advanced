@@ -1,9 +1,12 @@
+from datetime import datetime
 from typing import Optional
+from pydantic import BaseModel
 
-from pydantic import BaseModel, Field
+from sqlmodel import SQLModel, Field
 
 
-class UserBaseSchema(BaseModel):
+class UserBaseSchema(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True)
     name: str = Field(...)
     phone: str = Field(...)
     email: str
@@ -27,3 +30,10 @@ class CreateUserResponseModel(BaseModel):
 
 class UpdateUserResponseModel(BaseModel):
     updatedAt: Optional[str] = None
+
+
+class UserUpdate(BaseModel):
+    name: str | None = None
+    phone: str | None = None
+    email: str | None = None
+

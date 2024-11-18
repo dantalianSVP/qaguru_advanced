@@ -4,12 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pydantic= "*"
+pydantic = "*"
+psycopg2-binary = "*"
+sqlalchemy = "*"
+sqlmodel = "*"
 fastapi = "*"
 httpx = "*"
-pytest= "*"
+pytest = "*"
 fastapi-pagination = "*"
-uvicorn = {version ="*", extras = ["standard"]}
+uvicorn = { version = "*", extras = ["standard"] }
 pipfile = "*"
 
 [dev-packages]

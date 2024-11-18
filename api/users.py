@@ -1,44 +1,25 @@
 import json
 from datetime import datetime
 from http import HTTPStatus
-
+from typing import Iterable
 from fastapi import HTTPException, status
-from fastapi_pagination import Page, paginate
-
 from api.routes import routes
-from serializers.user import CreateUserRequestModel, CreateUserResponseModel, UserBaseSchema, UpdateUserResponseModel
-from db.db_queries import add_user, get_user_by_id, update_user_by_id, delete_user_by_id
-
-users: list[UserBaseSchema]
+from serializers.user import CreateUserResponseModel, UserBaseSchema, UpdateUserResponseModel, \
+    UserUpdate
+from db import users
 
 
 @routes.post(
     '/users',
     response_model=CreateUserResponseModel,
-    status_code=200,
+    status_code=HTTPStatus.CREATED,
     summary='Создание нового пользователя'
 
 )
-async def create_user(user_data: CreateUserRequestModel):
-    user_id = add_user(user_data)
-    return CreateUserResponseModel(message="Пользователь успешно зарегистрирован", id=user_id)
-
-
-@routes.get(
-    '/users/{user_id}',
-    response_model=UserBaseSchema,
-    status_code=200,
-    summary='Получение данных пользователя'
-
-)
-async def get_user(user_id: int):
-    user = get_user_by_id(user_id)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail='Пользователь не найден в БД',
-        )
-    return get_user_by_id(user_id)
+async def create_user(user_data: UserBaseSchema):
+    UserBaseSchema.model_validate(user_data)
+    user_id = users.create_user(user_data)
+    return CreateUserResponseModel(message="Пользователь успешно зарегистрирован", id=user_id.id)
 
 
 @routes.put(
@@ -48,14 +29,17 @@ async def get_user(user_id: int):
     summary='Изменение данных пользователя'
 
 )
-async def update_user(user_id: int, user_data: UserBaseSchema):
-    user = get_user_by_id(user_id)
+async def update_user(user_id: int, user_data: UserUpdate):
+    if user_id < 1:
+        raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail='Invalid user_id')
+    UserUpdate.model_validate(user_data)
+    user = users.get_user(user_id)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail='Пользователь не найден в БД',
         )
-    update_user_by_id(user_id, user_data)
+    users.update_user(user_id, user_data)
     return UpdateUserResponseModel(updatedAt=str(datetime.now()))
 
 
@@ -66,19 +50,36 @@ async def update_user(user_id: int, user_data: UserBaseSchema):
 
 )
 async def delete_user(user_id: int):
-    user = get_user_by_id(user_id)
+    if user_id < 1:
+        raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail='Invalid user_id')
+    user = users.get_user(user_id)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail='Пользователь не найден в БД',
         )
-    return delete_user_by_id(user_id)
+    return users.delete_user(user_id)
+
+
+@routes.get(
+    '/users/{user_id}',
+    response_model=UserBaseSchema,
+    status_code=200,
+    summary='Получение данных пользователя'
+
+)
+async def get_user(user_id: int):
+    if user_id < 1:
+        raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail='Invalid user_id')
+    user = users.get_user(user_id)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='Пользователь не найден в БД',
+        )
+    return user
 
 
 @routes.get("/users", status_code=HTTPStatus.OK)
-async def get_users() -> Page[UserBaseSchema]:
-    with open("db/users.json") as f:
-        users = json.load(f)
-    for user in users:
-        UserBaseSchema.model_validate(user)
-    return paginate(users)
+async def get_users() -> Iterable[UserBaseSchema]:
+    return users.get_users()
