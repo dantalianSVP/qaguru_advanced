@@ -1,6 +1,8 @@
 import os
+from http import HTTPStatus
 
 import dotenv
+import httpx
 import pytest
 
 
@@ -12,3 +14,10 @@ def envs():
 @pytest.fixture(scope="session")
 def app_url():
     return os.getenv("APP_URL")
+
+
+@pytest.fixture
+def users(app_url):
+    response = httpx.get(f"{app_url}/api/users/")
+    assert response.status_code == HTTPStatus.OK
+    return response.json()
