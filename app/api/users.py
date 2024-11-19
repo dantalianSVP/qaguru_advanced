@@ -1,12 +1,11 @@
-import json
 from datetime import datetime
 from http import HTTPStatus
 from typing import Iterable
 from fastapi import HTTPException, status
-from api.routes import routes
-from serializers.user import CreateUserResponseModel, UserBaseSchema, UpdateUserResponseModel, \
+from app.api.routes import routes
+from app.serializers.user import CreateUserResponseModel, UserBaseSchema, UpdateUserResponseModel, \
     UserUpdate
-from db import users
+from app.db import users
 
 
 @routes.post(

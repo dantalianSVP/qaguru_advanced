@@ -1,5 +1,4 @@
-import api.users
-import api.health
+from app.api import users,health
 
 __all__ = [
     'users',

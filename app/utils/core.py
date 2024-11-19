@@ -2,8 +2,6 @@ import json
 import os
 from functools import wraps
 
-from serializers.user import CreateUserRequestModel
-
 DATA_FILE = 'db/users.json'
 
 

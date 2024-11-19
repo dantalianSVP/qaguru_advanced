@@ -1,8 +1,8 @@
 from typing import Iterable
 import dotenv
-from serializers.user import UserBaseSchema, UserUpdate
+from app.serializers.user import UserBaseSchema, UserUpdate
 dotenv.load_dotenv()
-from db.engine import engine
+from app.db.engine import engine
 from sqlmodel import Session, select
 
 
