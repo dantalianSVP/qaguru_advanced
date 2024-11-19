@@ -30,3 +30,4 @@ add_pagination(app)
 if __name__ == '__main__':
     create_db_and_table()
     uvicorn.run('main:app', port=5001, log_level='debug')
+
