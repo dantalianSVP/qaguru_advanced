@@ -17,6 +17,11 @@ jobs:
       - run: pip install --no-cache-dir pipenv
       - run: pipenv install --deploy --ignore-pipfile
       - run: docker compose up -d --build
+      - run: sleep 10  # Даем время на запуск контейнеров
+      - run: docker compose ps  # Проверяем статус контейнеров
+      - run: pytest -v tests  # Запускаем тесты
+      - run: docker compose logs app  # Выводим логи приложения
+        if: always()
       - run: pytest tests
 
       - run: docker compose logs app
