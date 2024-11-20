@@ -14,7 +14,7 @@ jobs:
         with:
           python-version: '3.10'
           cache: 'pip'
-      - run: pip install --no-cache-dir --upgrade -r /code/requirements.txt
+      - run: pip install --upgrade -r /code/requirements.txt
       - run: docker compose up -d --build
       - run: sleep 10  # Даем время на запуск контейнеров
       - run: docker compose ps -a  # Проверяем статус контейнеров
