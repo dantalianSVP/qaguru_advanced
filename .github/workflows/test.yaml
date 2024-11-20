@@ -24,9 +24,19 @@ jobs:
       - run: pytest -v tests  # Запускаем тесты
       - run: docker compose logs app  # Выводим логи приложения
         if: always()
-      - run: pytest tests
+      - run: pytest tests --junit-xml=test-results.xml
         env:
-          APP_URL: APP_URL=http://127.0.0.1:8002/v1/api
+          APP_URL: http://127.0.0.1:8002/v1/api
 
       - run: docker compose logs app
         if: always()
+
+      - name: Surface failing tests
+        if: always()
+        uses: pmeier/pytest-results-action@main
+        with:
+          path: test-results.xml
+          summary: true
+          display-options: fEX
+          fail-on-empty: true
+          title: Test results
