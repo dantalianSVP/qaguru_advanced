@@ -10,4 +10,4 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 COPY ./app /code/app
 
 # Запуск приложения с uvicorn
-CMD ["fastapi", "run", "app/main.py", "--host", "0.0.0.0", "--port", "80"]
+CMD ["fastapi", "run", "app/main.py", "--port", "80"]
