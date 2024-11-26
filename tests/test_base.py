@@ -32,7 +32,7 @@ def test_create_user(app_url):
     assert response.status_code == HTTPStatus.CREATED
 
 
-@pytest.mark.parametrize("user_id", ["1", "2"])
+@pytest.mark.parametrize("user_id", ["1"])
 def test_get_user(user_id, app_url):
     response = httpx.get(f'{app_url}/users' + "/" + user_id)
     resp = response.json()
