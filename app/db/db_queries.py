@@ -1,8 +1,10 @@
+import dotenv
+
+dotenv.load_dotenv()
 import json
 from datetime import datetime
-
-from serializers.user import CreateUserRequestModel
-from utils.core import file_handler
+from app.serializers.user import CreateUserRequestModel
+from app.utils.core import file_handler
 
 
 def add_user(user_data: CreateUserRequestModel):

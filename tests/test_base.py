@@ -1,10 +1,10 @@
 import datetime
+from http import HTTPStatus
 
 import httpx
 import pytest
 
-from serializers.user import UserBaseSchema, CreateUserResponseModel, UpdateUserResponseModel
-
+from app.serializers.user import UserBaseSchema, CreateUserResponseModel, UpdateUserResponseModel
 
 user_data_update = {
     'name': 'upd',
@@ -29,11 +29,11 @@ def test_create_user(app_url):
     response = httpx.post(f'{app_url}/users', json=new_user)
     resp = response.json()
     CreateUserResponseModel(**resp)
-    assert response.status_code == 200
+    assert response.status_code == HTTPStatus.CREATED
 
 
-@pytest.mark.parametrize("user_id", ["3", "12"])
-def test_get_user(user_id,app_url):
+@pytest.mark.parametrize("user_id", ["1", "2"])
+def test_get_user(user_id, app_url):
     response = httpx.get(f'{app_url}/users' + "/" + user_id)
     resp = response.json()
     UserBaseSchema(**resp)
@@ -57,3 +57,20 @@ def test_update_user(app_url):
     resp = response.json()
     UpdateUserResponseModel(**resp)
     assert response.status_code == 200
+
+
+def test_failed_create(app_url):
+    response = httpx.patch(f'{app_url}/users', json=new_user)
+    assert response.status_code == HTTPStatus.METHOD_NOT_ALLOWED
+
+
+def test_user_flow(app_url):
+    response = httpx.post(f'{app_url}/users', json=new_user)
+    resp = response.json()
+    user_id = resp['id']
+    CreateUserResponseModel(**resp)
+    assert response.status_code == HTTPStatus.CREATED
+
+    response = httpx.put(f'{app_url}/users' + "/" + str(user_id), json=user_data_update)
+    resp = response.json()
+    UpdateUserResponseModel(**resp)

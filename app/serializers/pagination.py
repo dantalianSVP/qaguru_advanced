@@ -1,7 +1,6 @@
 from typing import List
 from pydantic import BaseModel
-
-from serializers.user import UserBaseSchema
+from app.serializers.user import UserBaseSchema
 
 
 class PaginatedResponse(BaseModel):

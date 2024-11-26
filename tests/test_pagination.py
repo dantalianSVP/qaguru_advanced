@@ -1,7 +1,7 @@
 import httpx
 import pytest
 
-from serializers.pagination import PaginatedResponse
+from app.serializers.pagination import PaginatedResponse
 
 
 def test_base_pagination(app_url):
